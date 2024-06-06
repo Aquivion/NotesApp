@@ -1,5 +1,4 @@
 import { IonBackButton, IonButton, IonButtons, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react'
-import { Preferences } from '@capacitor/preferences'
 import { useEffect, useState } from 'react'
 import TextArea from '../../components/inputs/Textarea/Textarea'
 import TextInput from '../../components/inputs/TextInput/TextInput'
