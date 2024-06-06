@@ -12,12 +12,12 @@ const useIonicStorage = <T,>(storeName: string = '__mydb') => {
 		setStorage(await storage.create())
 	}
 
-	const setStoreItem = async (key: string, value: T) => {
+	const setStoreItem = async (key: string, value: T): Promise<T | undefined> => {
 		if (!storage) {
 			console.warn('No ionic storage has been created yet')
 			return
 		}
-		await storage.set(key, value)
+		return await storage.set(key, value)
 	}
 
 	const getStoreItem = async (key: string): Promise<T | undefined> => {
@@ -28,12 +28,12 @@ const useIonicStorage = <T,>(storeName: string = '__mydb') => {
 		return await storage.get(key)
 	}
 
-	const removeStoreItem = async (key: string) => {
+	const removeStoreItem = async (key: string): Promise<T | undefined> => {
 		if (!storage) {
 			console.warn('No ionic storage has been created yet')
 			return
 		}
-		await storage.remove(key)
+		return await storage.remove(key)
 	}
 
 	const clearStore = async () => {
