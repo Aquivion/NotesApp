@@ -19,19 +19,27 @@ import '@ionic/react/css/palettes/dark.system.css'
 /* Theme variables */
 import './theme/variables.css'
 import AddNote from './pages/AddNote/AddNote'
+import useNotesStorage from './Storage/useNotesStorage'
+import { useEffect } from 'react'
 
 setupIonicReact()
 
-const App: React.FC = () => (
-	<IonApp>
-		<IonReactRouter>
-			<IonRouterOutlet>
-				<Route path="/home" component={Home} />
-				<Route path="/add-note" component={AddNote} />
-				<Route exact path="/" render={() => <Redirect to="/home" />} />
-			</IonRouterOutlet>
-		</IonReactRouter>
-	</IonApp>
-)
+const App: React.FC = () => {
+	const { loadStore } = useNotesStorage()
+	useEffect(() => {
+		loadStore()
+	}, [])
+	return (
+		<IonApp>
+			<IonReactRouter>
+				<IonRouterOutlet>
+					<Route path="/home" component={Home} />
+					<Route path="/add-note" component={AddNote} />
+					<Route exact path="/" render={() => <Redirect to="/home" />} />
+				</IonRouterOutlet>
+			</IonReactRouter>
+		</IonApp>
+	)
+}
 
 export default App
