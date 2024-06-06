@@ -1,14 +1,4 @@
-import {
-	IonBackButton,
-	IonButton,
-	IonButtons,
-	IonContent,
-	IonHeader,
-	IonInput,
-	IonPage,
-	IonTitle,
-	IonToolbar,
-} from '@ionic/react'
+import { IonBackButton, IonButton, IonButtons, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react'
 import { Preferences } from '@capacitor/preferences'
 import { useEffect, useState } from 'react'
 import TextArea from '../../components/inputs/Textarea/Textarea'
@@ -17,19 +7,6 @@ import TextInput from '../../components/inputs/TextInput/TextInput'
 const AddNote: React.FC = () => {
 	const [title, setTitle] = useState('')
 	const [note, setNote] = useState('')
-
-	useEffect(() => {
-		const listener = (ev: any) => {
-			debugger
-			ev.detail.register(10, () => {
-				console.log('Handler was called!')
-			})
-		}
-		document.addEventListener('ionBackButton', listener)
-		return () => {
-			document.removeEventListener('ionBackButton', listener)
-		}
-	}, [])
 
 	return (
 		<IonPage>
