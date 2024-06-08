@@ -14,7 +14,7 @@ const TextInput: React.FC<TextInputProps> = (props: TextInputProps) => {
 			type="text"
 			value={value}
 			onChange={(ev: any) => setValue(ev.target.value)}
-			className=" p-2 w-full bg-customBackground focus:outline-none text-xl"
+			className="p-2 w-full bg-customBackground focus:outline-none text-xl"
 		/>
 	)
 }

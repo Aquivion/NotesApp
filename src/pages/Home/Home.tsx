@@ -1,5 +1,4 @@
-import { IonButton, IonContent, IonFooter, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react'
-import './Home.css'
+import { IonContent, IonFooter, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react'
 import HomeContent from '../../components/HomeContent/HomeContent'
 import HomeFooter from '../../components/HomeFooter/HomeFooter'
 

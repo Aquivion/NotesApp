@@ -7,7 +7,7 @@ const HomeContent: React.FC = () => {
 		console.log('Add note clicked!')
 	}
 	return (
-		<div className="homeContent">
+		<div className="flex justify-center items-center h-full">
 			<p>You haven't created any notes yet</p>
 		</div>
 	)

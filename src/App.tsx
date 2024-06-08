@@ -26,9 +26,11 @@ setupIonicReact()
 
 const App: React.FC = () => {
 	const { loadStore } = useNotesStorage()
+
 	useEffect(() => {
 		loadStore()
 	}, [])
+
 	return (
 		<IonApp>
 			<IonReactRouter>
