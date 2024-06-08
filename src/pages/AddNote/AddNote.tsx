@@ -1,4 +1,13 @@
-import { IonBackButton, IonButton, IonButtons, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react'
+import {
+	IonBackButton,
+	IonButton,
+	IonButtons,
+	IonHeader,
+	IonPage,
+	IonTitle,
+	IonToolbar,
+	useIonViewWillLeave,
+} from '@ionic/react'
 import { useEffect, useState } from 'react'
 import TextArea from '../../components/inputs/Textarea/Textarea'
 import TextInput from '../../components/inputs/TextInput/TextInput'
@@ -12,25 +21,39 @@ interface AddNoteParams {
 const AddNote: React.FC = () => {
 	const [title, setTitle] = useState('')
 	const [description, setDescription] = useState('')
-	const { setNote, getNote, getAllNotes, clearNotes } = useNotesStorage()
+	const { setNote, getNote, removeNote, getAllNotes, clearNotes } = useNotesStorage()
 	const { noteKey } = useParams<AddNoteParams>()
+	const location = useLocation()
 
-	const useQuery = () => {
-		return new URLSearchParams(useLocation().search)
+	const query = new URLSearchParams(location.search)
+	const id = query.get('id')
+
+	const handleBackButton = () => {
+		console.log('TEST', title.length, description.length)
+		if (title.length === 0 && description.length === 0 && id) {
+			removeNote(id)
+		}
+		if (title.length === 0 && description.length > 0 && id) {
+			setNote(id, { title: 'Unnamed', description: description })
+		}
 	}
 
-	const query = useQuery()
-	const id = query.get('id')
+	useIonViewWillLeave(() => {
+		handleBackButton()
+	}, [title, description])
 
 	useEffect(() => {
 		const delayDebounceFn = setTimeout(() => {
 			if (id) {
+				console.log(title.length)
 				setNote(id, { title: title, description: description })
 			}
 		}, 500)
 
 		return () => clearTimeout(delayDebounceFn)
-	}, [title])
+	}, [title, description])
+
+	useEffect(() => {})
 
 	const getNoteFromStore = async () => {
 		const note = await getAllNotes('Test')
