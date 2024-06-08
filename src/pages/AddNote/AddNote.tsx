@@ -2,10 +2,30 @@ import { IonBackButton, IonButton, IonButtons, IonHeader, IonPage, IonTitle, Ion
 import { useEffect, useState } from 'react'
 import TextArea from '../../components/inputs/Textarea/Textarea'
 import TextInput from '../../components/inputs/TextInput/TextInput'
+import useNotesStorage from '../../Storage/useNotesStorage'
+import { useParams } from 'react-router'
 
+interface AddNoteParams {
+	noteKey: string
+}
 const AddNote: React.FC = () => {
 	const [title, setTitle] = useState('')
-	const [note, setNote] = useState('')
+	const [description, setDescription] = useState('')
+	const { setNote, getNote, getAllNotes } = useNotesStorage()
+	const { noteKey } = useParams<AddNoteParams>()
+
+	useEffect(() => {
+		const delayDebounceFn = setTimeout(() => {
+			setNote(noteKey, { title: title, description: description })
+		}, 500)
+
+		return () => clearTimeout(delayDebounceFn)
+	}, [title])
+
+	const getNoteFromStore = async () => {
+		const note = await getAllNotes('Test')
+		console.log(note)
+	}
 
 	return (
 		<IonPage>
@@ -20,8 +40,9 @@ const AddNote: React.FC = () => {
 			</IonHeader>
 			<div className="flex flex-col h-full overflow-auto">
 				<TextInput value={title} setValue={setTitle}></TextInput>
-				<TextArea value={note} setValue={setNote}></TextArea>
+				<TextArea value={description} setValue={setDescription}></TextArea>
 			</div>
+			<button onClick={getNoteFromStore}>Test</button>
 		</IonPage>
 	)
 }
