@@ -16,7 +16,7 @@ const useNotesStorage = () => {
 	const getNote = async (key: string): Promise<Note | undefined> => {
 		return await getStoreItem(key)
 	}
-	const getAllNotes = async (key: string): Promise<Note[] | undefined> => {
+	const getAllNotes = async (): Promise<Note[] | undefined> => {
 		return await getAllStoreItems()
 	}
 

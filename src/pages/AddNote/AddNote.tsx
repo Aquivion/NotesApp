@@ -12,17 +12,12 @@ import { useEffect, useState } from 'react'
 import TextArea from '../../components/inputs/Textarea/Textarea'
 import TextInput from '../../components/inputs/TextInput/TextInput'
 import useNotesStorage from '../../Storage/useNotesStorage'
-import { useParams } from 'react-router-dom'
 import { useLocation } from 'react-router-dom'
 
-interface AddNoteParams {
-	noteKey: string
-}
 const AddNote: React.FC = () => {
 	const [title, setTitle] = useState('')
 	const [description, setDescription] = useState('')
-	const { setNote, getNote, removeNote, getAllNotes, clearNotes } = useNotesStorage()
-	const { noteKey } = useParams<AddNoteParams>()
+	const { setNote, removeNote, getAllNotes, clearNotes } = useNotesStorage()
 	const location = useLocation()
 
 	const query = new URLSearchParams(location.search)
@@ -55,14 +50,14 @@ const AddNote: React.FC = () => {
 
 	useEffect(() => {})
 
-	const getNoteFromStore = async () => {
-		const note = await getAllNotes('Test')
-		console.log(note)
-	}
+	// const getNoteFromStore = async () => {
+	// 	const note = await getAllNotes('Test')
+	// 	console.log(note)
+	// }
 
-	const clearStorage = async () => {
-		await clearNotes()
-	}
+	// const clearStorage = async () => {
+	// 	await clearNotes()
+	// }
 
 	return (
 		<IonPage>
@@ -79,8 +74,8 @@ const AddNote: React.FC = () => {
 				<TextInput value={title} setValue={setTitle}></TextInput>
 				<TextArea value={description} setValue={setDescription}></TextArea>
 			</div>
-			<button onClick={getNoteFromStore}>Test</button>
-			<button onClick={clearStorage}>Clear</button>
+			{/* <button onClick={getNoteFromStore}>Test</button>
+			<button onClick={clearStorage}>Clear</button> */}
 		</IonPage>
 	)
 }
