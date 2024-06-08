@@ -16,8 +16,6 @@ import './global.scss'
 /* import '@ionic/react/css/palettes/dark.class.css'; */
 import '@ionic/react/css/palettes/dark.system.css'
 
-/* Theme variables */
-import './theme/variables.css'
 import AddNote from './pages/AddNote/AddNote'
 import useNotesStorage from './Storage/useNotesStorage'
 import { useEffect } from 'react'

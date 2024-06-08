@@ -1,7 +1,6 @@
 import { IonButton, IonFooter } from '@ionic/react'
 import React from 'react'
 
-import './HomeContent.scss'
 const HomeContent: React.FC = () => {
 	const onAddNoteClicked = () => {
 		console.log('Add note clicked!')
