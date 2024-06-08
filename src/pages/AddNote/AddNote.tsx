@@ -3,7 +3,8 @@ import { useEffect, useState } from 'react'
 import TextArea from '../../components/inputs/Textarea/Textarea'
 import TextInput from '../../components/inputs/TextInput/TextInput'
 import useNotesStorage from '../../Storage/useNotesStorage'
-import { useParams } from 'react-router'
+import { useParams } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 
 interface AddNoteParams {
 	noteKey: string
@@ -11,12 +12,21 @@ interface AddNoteParams {
 const AddNote: React.FC = () => {
 	const [title, setTitle] = useState('')
 	const [description, setDescription] = useState('')
-	const { setNote, getNote, getAllNotes } = useNotesStorage()
+	const { setNote, getNote, getAllNotes, clearNotes } = useNotesStorage()
 	const { noteKey } = useParams<AddNoteParams>()
+
+	const useQuery = () => {
+		return new URLSearchParams(useLocation().search)
+	}
+
+	const query = useQuery()
+	const id = query.get('id')
 
 	useEffect(() => {
 		const delayDebounceFn = setTimeout(() => {
-			setNote(noteKey, { title: title, description: description })
+			if (id) {
+				setNote(id, { title: title, description: description })
+			}
 		}, 500)
 
 		return () => clearTimeout(delayDebounceFn)
@@ -25,6 +35,10 @@ const AddNote: React.FC = () => {
 	const getNoteFromStore = async () => {
 		const note = await getAllNotes('Test')
 		console.log(note)
+	}
+
+	const clearStorage = async () => {
+		await clearNotes()
 	}
 
 	return (
@@ -43,6 +57,7 @@ const AddNote: React.FC = () => {
 				<TextArea value={description} setValue={setDescription}></TextArea>
 			</div>
 			<button onClick={getNoteFromStore}>Test</button>
+			<button onClick={clearStorage}>Clear</button>
 		</IonPage>
 	)
 }

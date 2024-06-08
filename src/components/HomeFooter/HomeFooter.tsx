@@ -12,11 +12,11 @@ const HomeFooter: React.FC = () => {
 		const num = await numNotes()
 		const key = `N${num}`
 		setNote(key, { title: '', description: '' })
-		history.push(`/add-note`, { noteKey: key })
+		history.push(`/add-note?id=${key}`)
 	}
 
 	return (
-		<div className="m-10">
+		<div className="m-5">
 			<IonButton expand="block" mode="md" onClick={onAddNewNote}>
 				Add Note
 			</IonButton>
