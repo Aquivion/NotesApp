@@ -2,7 +2,8 @@ import { Note } from '../Interfaces/Note'
 import useIonicStorage from './useIonicStorage'
 
 const useNotesStorage = () => {
-	const { createStore, setStoreItem, getStoreItem, removeStoreItem, clearStore } = useIonicStorage<Note>('NotesDB')
+	const { createStore, setStoreItem, getStoreItem, getAllStoreItems, removeStoreItem, clearStore, length } =
+		useIonicStorage<Note>('NotesDB')
 
 	const loadStore = async () => {
 		createStore()
@@ -15,6 +16,9 @@ const useNotesStorage = () => {
 	const getNote = async (key: string): Promise<Note | undefined> => {
 		return await getStoreItem(key)
 	}
+	const getAllNotes = async (key: string): Promise<Note[] | undefined> => {
+		return await getAllStoreItems()
+	}
 
 	const removeNote = async (key: string): Promise<Note | undefined> => {
 		return await removeStoreItem(key)
@@ -24,12 +28,18 @@ const useNotesStorage = () => {
 		clearStore()
 	}
 
+	const numNotes = async (): Promise<number | undefined> => {
+		return length()
+	}
+
 	return {
 		loadStore,
 		setNote,
 		getNote,
+		getAllNotes,
 		removeNote,
 		clearNotes,
+		numNotes,
 	}
 }
 

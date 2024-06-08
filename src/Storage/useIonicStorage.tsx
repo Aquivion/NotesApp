@@ -1,15 +1,15 @@
 import { Drivers, Storage as IonicStorage } from '@ionic/storage'
 import { useState } from 'react'
 
-const useIonicStorage = <T,>(storeName: string = '__mydb') => {
-	const [storage, setStorage] = useState<IonicStorage>()
+let storage: IonicStorage
 
+const useIonicStorage = <T,>(storeName: string = '__mydb') => {
 	const createStore = async () => {
-		const storage = new IonicStorage({
+		storage = new IonicStorage({
 			name: storeName,
 			driverOrder: [Drivers.IndexedDB, Drivers.LocalStorage, Drivers.SecureStorage],
 		})
-		setStorage(await storage.create())
+		await storage.create()
 	}
 
 	const setStoreItem = async (key: string, value: T): Promise<T | undefined> => {
@@ -28,6 +28,18 @@ const useIonicStorage = <T,>(storeName: string = '__mydb') => {
 		return await storage.get(key)
 	}
 
+	const getAllStoreItems = async (): Promise<T[] | undefined> => {
+		if (!storage) {
+			console.warn('No ionic storage has been created yet')
+			return
+		}
+		const items: T[] = []
+		await storage.forEach((val: T, key: string) => {
+			items.push(val)
+		})
+		return items
+	}
+
 	const removeStoreItem = async (key: string): Promise<T | undefined> => {
 		if (!storage) {
 			console.warn('No ionic storage has been created yet')
@@ -44,12 +56,22 @@ const useIonicStorage = <T,>(storeName: string = '__mydb') => {
 		await storage.clear()
 	}
 
+	const length = async (): Promise<number | undefined> => {
+		if (!storage) {
+			console.warn('No ionic storage has been created yet')
+			return
+		}
+		return storage.length()
+	}
+
 	return {
 		createStore,
 		setStoreItem,
 		getStoreItem,
+		getAllStoreItems,
 		removeStoreItem,
 		clearStore,
+		length,
 	}
 }
 
