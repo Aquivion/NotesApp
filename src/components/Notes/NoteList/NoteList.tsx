@@ -11,12 +11,12 @@ function NoteList() {
 	}, [data])
 
 	return (
-		<div>
+		<div className="w-full">
 			<ul>
 				{data &&
 					Array.from(data.entries()).map(([id, note]) => {
 						return (
-							<li key={id}>
+							<li key={id} className='mb-2 mx-2'>
 								<NoteCard note={note}></NoteCard>
 							</li>
 						)
