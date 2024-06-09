@@ -1,45 +1,54 @@
-import { IonBackButton, IonButton, IonButtons, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react'
+import {
+	IonBackButton,
+	IonButton,
+	IonButtons,
+	IonHeader,
+	IonPage,
+	IonTitle,
+	IonToolbar,
+	useIonViewWillLeave,
+} from '@ionic/react'
 import { useEffect, useState } from 'react'
 import TextArea from '../../components/inputs/Textarea/Textarea'
 import TextInput from '../../components/inputs/TextInput/TextInput'
-import useNotesStorage from '../../Storage/useNotesStorage'
-import { useParams } from 'react-router-dom'
 import { useLocation } from 'react-router-dom'
+import useIonicStorageMutation from '../../Storage/useIonicStorageMutation'
 
-interface AddNoteParams {
-	noteKey: string
-}
 const AddNote: React.FC = () => {
 	const [title, setTitle] = useState('')
 	const [description, setDescription] = useState('')
-	const { setNote, getNote, getAllNotes, clearNotes } = useNotesStorage()
-	const { noteKey } = useParams<AddNoteParams>()
+	const { mutate, remove, isLoading, isError } = useIonicStorageMutation()
+	const location = useLocation()
 
-	const useQuery = () => {
-		return new URLSearchParams(useLocation().search)
+	const query = new URLSearchParams(location.search)
+	const id = query.get('id')
+
+	const handleBackButton = () => {
+		console.log('TEST', title.length, description.length)
+		if (title.length === 0 && description.length === 0 && id) {
+			remove(id)
+		}
+		if (title.length === 0 && description.length > 0 && id) {
+			mutate(id, { id: id, title: 'Unnamed', description: description, timeStamp: new Date() })
+		}
 	}
 
-	const query = useQuery()
-	const id = query.get('id')
+	useIonViewWillLeave(() => {
+		handleBackButton()
+	}, [title, description])
 
 	useEffect(() => {
 		const delayDebounceFn = setTimeout(() => {
 			if (id) {
-				setNote(id, { title: title, description: description })
+				console.log(title.length)
+				mutate(id, { id: id, title: title, description: description, timeStamp: new Date() })
 			}
 		}, 500)
 
 		return () => clearTimeout(delayDebounceFn)
-	}, [title])
+	}, [title, description])
 
-	const getNoteFromStore = async () => {
-		const note = await getAllNotes('Test')
-		console.log(note)
-	}
-
-	const clearStorage = async () => {
-		await clearNotes()
-	}
+	useEffect(() => {})
 
 	return (
 		<IonPage>
@@ -56,8 +65,8 @@ const AddNote: React.FC = () => {
 				<TextInput value={title} setValue={setTitle}></TextInput>
 				<TextArea value={description} setValue={setDescription}></TextArea>
 			</div>
-			<button onClick={getNoteFromStore}>Test</button>
-			<button onClick={clearStorage}>Clear</button>
+			{/* <button onClick={getNoteFromStore}>Test</button>
+			<button onClick={clearStorage}>Clear</button> */}
 		</IonPage>
 	)
 }

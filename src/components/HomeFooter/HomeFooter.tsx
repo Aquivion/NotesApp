@@ -1,17 +1,18 @@
 import { IonButton } from '@ionic/react'
 import React from 'react'
 
-import useNotesStorage from '../../Storage/useNotesStorage'
 import { useHistory } from 'react-router-dom'
+import useIonicStorage from '../../Storage/useIonicStorage'
+import { useIonicStorageQuery } from '../../Storage/useIonicStorageQuery'
+import useIonicStorageMutation from '../../Storage/useIonicStorageMutation'
 
 const HomeFooter: React.FC = () => {
 	const history = useHistory()
-	const { numNotes, setNote } = useNotesStorage()
+	const { length } = useIonicStorageQuery()
+	const { mutate } = useIonicStorageMutation()
 
 	const onAddNewNote = async () => {
-		const num = await numNotes()
-		const key = `N${num}`
-		setNote(key, { title: '', description: '' })
+		const key = `N${length}`
 		history.push(`/add-note?id=${key}`)
 	}
 
