@@ -12,55 +12,31 @@ const useIonicStorage = <T,>(storeName: string = '__mydb') => {
 		await storage.create()
 	}
 
-	const setStoreItem = async (key: string, value: T): Promise<T | undefined> => {
-		if (!storage) {
-			console.warn('No ionic storage has been created yet')
-			return
-		}
+	const setStoreItem = async (key: string, value: T): Promise<T> => {
 		return await storage.set(key, value)
 	}
 
-	const getStoreItem = async (key: string): Promise<T | undefined> => {
-		if (!storage) {
-			console.warn('No ionic storage has been created yet')
-			return
-		}
+	const getStoreItem = async (key: string): Promise<T> => {
 		return await storage.get(key)
 	}
 
-	const getAllStoreItems = async (): Promise<T[] | undefined> => {
-		if (!storage) {
-			console.warn('No ionic storage has been created yet')
-			return
-		}
-		const items: T[] = []
+	const getAllStoreItems = async (): Promise<Map<string, T>> => {
+		const itemMap = new Map<string, T>()
 		await storage.forEach((val: T, key: string) => {
-			items.push(val)
+			itemMap.set(key, val)
 		})
-		return items
+		return itemMap
 	}
 
-	const removeStoreItem = async (key: string): Promise<T | undefined> => {
-		if (!storage) {
-			console.warn('No ionic storage has been created yet')
-			return
-		}
+	const removeStoreItem = async (key: string): Promise<T> => {
 		return await storage.remove(key)
 	}
 
 	const clearStore = async () => {
-		if (!storage) {
-			console.warn('No ionic storage has been created yet')
-			return
-		}
 		await storage.clear()
 	}
 
-	const length = async (): Promise<number | undefined> => {
-		if (!storage) {
-			console.warn('No ionic storage has been created yet')
-			return
-		}
+	const getLength = async (): Promise<number> => {
 		return storage.length()
 	}
 
@@ -71,7 +47,7 @@ const useIonicStorage = <T,>(storeName: string = '__mydb') => {
 		getAllStoreItems,
 		removeStoreItem,
 		clearStore,
-		length,
+		getLength,
 	}
 }
 

@@ -11,13 +11,13 @@ import {
 import { useEffect, useState } from 'react'
 import TextArea from '../../components/inputs/Textarea/Textarea'
 import TextInput from '../../components/inputs/TextInput/TextInput'
-import useNotesStorage from '../../Storage/useNotesStorage'
 import { useLocation } from 'react-router-dom'
+import useIonicStorageMutation from '../../Storage/useIonicStorageMutation'
 
 const AddNote: React.FC = () => {
 	const [title, setTitle] = useState('')
 	const [description, setDescription] = useState('')
-	const { setNote, removeNote, getAllNotes, clearNotes } = useNotesStorage()
+	const { mutate, remove, isLoading, isError } = useIonicStorageMutation()
 	const location = useLocation()
 
 	const query = new URLSearchParams(location.search)
@@ -26,10 +26,10 @@ const AddNote: React.FC = () => {
 	const handleBackButton = () => {
 		console.log('TEST', title.length, description.length)
 		if (title.length === 0 && description.length === 0 && id) {
-			removeNote(id)
+			remove(id)
 		}
 		if (title.length === 0 && description.length > 0 && id) {
-			setNote(id, { title: 'Unnamed', description: description })
+			mutate(id, { id: id, title: 'Unnamed', description: description, timeStamp: new Date() })
 		}
 	}
 
@@ -41,7 +41,7 @@ const AddNote: React.FC = () => {
 		const delayDebounceFn = setTimeout(() => {
 			if (id) {
 				console.log(title.length)
-				setNote(id, { title: title, description: description })
+				mutate(id, { id: id, title: title, description: description, timeStamp: new Date() })
 			}
 		}, 500)
 
@@ -49,15 +49,6 @@ const AddNote: React.FC = () => {
 	}, [title, description])
 
 	useEffect(() => {})
-
-	// const getNoteFromStore = async () => {
-	// 	const note = await getAllNotes('Test')
-	// 	console.log(note)
-	// }
-
-	// const clearStorage = async () => {
-	// 	await clearNotes()
-	// }
 
 	return (
 		<IonPage>

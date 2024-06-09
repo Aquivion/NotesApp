@@ -17,16 +17,17 @@ import './global.scss'
 import '@ionic/react/css/palettes/dark.system.css'
 
 import AddNote from './pages/AddNote/AddNote'
-import useNotesStorage from './Storage/useNotesStorage'
 import { useEffect } from 'react'
+import useIonicStorage from './Storage/useIonicStorage'
+import { Note } from './Interfaces/Note'
 
 setupIonicReact()
 
 const App: React.FC = () => {
-	const { loadStore } = useNotesStorage()
+	const { createStore } = useIonicStorage<Note>('NotesDB')
 
 	useEffect(() => {
-		loadStore()
+		createStore()
 	}, [])
 
 	return (

@@ -1,9 +1,12 @@
-import React from 'react'
+import NoteList from '../Notes/NoteList/NoteList'
+import { useIonicStorageQuery } from '../../Storage/useIonicStorageQuery'
 
 const HomeContent: React.FC = () => {
+	const { length } = useIonicStorageQuery()
+
 	return (
 		<div className="flex justify-center items-center h-full">
-			<p>You haven't created any notes yet</p>
+			{length > 0 ? <NoteList /> : <p>You haven't created any notes yet</p>}
 		</div>
 	)
 }
