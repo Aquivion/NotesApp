@@ -6,7 +6,7 @@ interface NoteCardProps {
 }
 function NoteCard(props: NoteCardProps) {
 	const { note } = props
-	return <div>{note.title}</div>
+	return <div className="flex border border-white px-2 py-3 rounded-md">{note.title}</div>
 }
 
 export default NoteCard
