@@ -1,25 +1,30 @@
-import React from 'react'
+import React, { BaseSyntheticEvent } from 'react'
 import { Note } from '../../../Interfaces/Note'
 import { IonButton, IonIcon } from '@ionic/react'
 
 import { trash, createOutline } from 'ionicons/icons'
 import useIonicStorageMutation from '../../../Storage/useIonicStorageMutation'
 import './NoteCard.scss'
+import { useHistory } from 'react-router'
 
 interface NoteCardProps {
 	note: Note
 }
 function NoteCard(props: NoteCardProps) {
 	const { note } = props
+	const history = useHistory()
 	const { remove } = useIonicStorageMutation()
 
-	const onClickDelete = () => {
-		console.log('delete clicked!')
+	const onClickDelete = (e: BaseSyntheticEvent) => {
+		e.preventDefault()
+		e.stopPropagation()
+		console.log('delete clicked!', e)
 		remove(note.id)
 	}
 
 	const onEditNote = () => {
 		console.log('edit')
+		history.push(`/edit-note?id=${note.id}`)
 	}
 	return (
 		<IonButton
