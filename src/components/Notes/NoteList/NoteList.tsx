@@ -16,7 +16,7 @@ function NoteList() {
 				{data &&
 					Array.from(data.entries()).map(([id, note]) => {
 						return (
-							<li key={id} className='mb-2 mx-2'>
+							<li key={id} className="mt-2 mx-2">
 								<NoteCard note={note}></NoteCard>
 							</li>
 						)
