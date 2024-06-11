@@ -20,6 +20,7 @@ import AddNote from './pages/AddNote/AddNote'
 import { useEffect } from 'react'
 import useIonicStorage from './Storage/useIonicStorage'
 import { Note } from './Interfaces/Note'
+import EditNote from './pages/EditNote/EditNote'
 
 setupIonicReact()
 
@@ -35,6 +36,7 @@ const App: React.FC = () => {
 			<IonReactRouter>
 				<IonRouterOutlet>
 					<Route path="/home" component={Home} />
+					<Route path="/edit-note" component={EditNote} />
 					<Route path="/add-note" component={AddNote} />
 					<Route exact path="/" render={() => <Redirect to="/home" />} />
 				</IonRouterOutlet>

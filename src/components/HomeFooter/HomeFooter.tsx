@@ -9,7 +9,6 @@ import useIonicStorageMutation from '../../Storage/useIonicStorageMutation'
 const HomeFooter: React.FC = () => {
 	const history = useHistory()
 	const { length } = useIonicStorageQuery()
-	const { mutate } = useIonicStorageMutation()
 
 	const onAddNewNote = async () => {
 		const key = `N${length}`
